@@ -17,10 +17,11 @@ This repository contains my assignment for Hypothesis Testing and Regression Ana
 		df = pd.read_csv("student-scores.csv")
 - Ensure dataset file (student-scores.csv) is in the same folder as the code scripts.
 
-## Observastion
+## Observation
 
 In this dataset, the sample size is large (n ≈ 2000). For large samples, the t-distribution closely approximates the standard normal distribution.
 
 As a result, the calculated t-statistic and Z-statistic converge to nearly identical values, producing the same p-values.
 
 Therefore, the similarity in results is expected and confirms the theoretical relationship between the Z-test and t-test for large samples.
+
