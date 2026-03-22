@@ -8,9 +8,8 @@ This repository contains my assignment for Hypothesis Testing and Regression Ana
 
 ## How to Run
 - Run each `.py` file in its folder.
-- Internet access is optional. 
-- If internet access is unavailable, modify the following lines in  
-	`MRL1.py`, `LR1.py`, `Z-test.py`, `T-test.py`, and `BothT-Z.py`:
+- Internet access is required by default (dataset is loaded from an online source).
+- If internet access is unavailable, modify the following lines in	`MLR1.py`, `LR1.py`, `Z-test.py`, `T-test.py`, and `BothT-Z.py`:
 		url = "https://api.slingacademy.com/v1/sample-data/files/student-scores.csv"
 		df = pd.read_csv(url)
 	to: 
