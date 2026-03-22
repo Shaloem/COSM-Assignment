@@ -14,6 +14,7 @@ df = pd.read_csv(url)
 
 print("Dataset loaded successfully!\n")
 print(df.head(), "\n")
+print("\nMissing Values:\n", df.isnull().sum())
 
 # 2.Selection of relevant coloumns for Linear Regression
 # Prediction of math_score based on weekly_self_study_hours
@@ -21,7 +22,12 @@ X = df[['weekly_self_study_hours']]
 y = df['math_score']
 
 # 3.Visualization of it
-sns.scatterplot(data=df, x='weekly_self_study_hours', y='math_score', color='blue')
+sns.regplot(data=df, 
+    x='weekly_self_study_hours', 
+    y='math_score', 
+    scatter_kws={'color': 'blue'}, 
+    line_kws={'color': 'red'}
+    )
 plt.title("Weekly Study Hours vs Math Score")
 plt.xlabel("Weekly Self Study Hours")
 plt.ylabel("Math Score")
@@ -42,10 +48,13 @@ y_pred = lr.predict(X_test)
 mse = mean_squared_error(y_test, y_pred)
 r2 = r2_score(y_test, y_pred)
 print(f"\nModel Performance:\nMSE = {mse:.2f}\nR² = {r2:.3f}\n")
+print(f"Training R²: {lr.score(X_train, y_train):.3f}")
 
 # 7.Actual vs Predicted plot
-plt.scatter(X_test, y_test, color='blue', label='Actual')
-plt.scatter(X_test, y_pred, color='red', label='Predicted')
+plt.scatter(y_test, y_pred)
+plt.plot([y_test.min(), y_test.max()],
+         [y_test.min(), y_test.max()],
+         'r--')
 plt.title("Actual vs Predicted Math Scores")
 plt.xlabel("Weekly Self Study Hours")
 plt.ylabel("Math Score")

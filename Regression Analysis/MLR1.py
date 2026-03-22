@@ -28,6 +28,12 @@ sns.pairplot(df[['weekly_self_study_hours', 'absence_days', 'part_time_job', 'ma
 plt.show()
 
 # 4.Train/test split
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+X_train, X_test, y_train, y_test = train_test_split(
+    X_scaled, y, test_size=0.2, random_state=42
+    )
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # 5.Fit multiple linear regression model
@@ -36,7 +42,11 @@ lr.fit(X_train, y_train)
 
 # Model coefficients
 print(f"Intercept: {lr.intercept_:.2f}")
-print(f"Coefficients: {lr.coef_}\n")
+coeff_df = pd.DataFrame({
+    "Feature": X.columns,
+    "Coefficient": lr.coef_
+})
+print(coeff_df)
 
 # 6.Predictions and evaluation
 y_pred = lr.predict(X_test)
@@ -44,8 +54,16 @@ mse = mean_squared_error(y_test, y_pred)
 r2 = r2_score(y_test, y_pred)
 print(f"\nModel Performance:\nMSE = {mse:.2f}\nR² = {r2:.3f}\n")
 
+n = X_test.shape[0]
+p = X_test.shape[1]
+adjusted_r2 = 1 - (1 - r2) * (n - 1) / (n - p - 1)
+print(f"Adjusted R² = {adjusted_r2:.3f}")
+
 # 7.Actual vs Predicted plot
 plt.scatter(y_test, y_pred, color='blue')
+plt.plot([y_test.min(), y_test.max()],
+         [y_test.min(), y_test.max()],
+         'r--')
 plt.title("Actual vs Predicted Math Scores")
 plt.xlabel("Actual Math Scores")
 plt.ylabel("Predicted Math Scores")
